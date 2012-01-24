@@ -84,6 +84,28 @@ CLEANFILES += \
 	${systemadm_SOURCES:.vala=.c}
 endif
 
+dist_man_MANS = \
+	man/systemadm.1
+
+EXTRA_DIST += \
+	man/systemadm.xml
+
+if HAVE_XSLTPROC
+XSLTPROC_FLAGS = \
+	--nonet \
+	--stringparam funcsynopsis.style ansi
+
+XSLTPROC_PROCESS_MAN = \
+	$(AM_V_GEN)$(MKDIR_P) $(dir $@) && \
+	$(XSLTPROC) -o $@ $(XSLTPROC_FLAGS) http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl $<
+
+man/%.1: man/%.xml
+	$(XSLTPROC_PROCESS_MAN)
+
+CLEANFILES += \
+	$(dist_man_MANS)
+endif
+
 install-exec-hook: $(INSTALL_EXEC_HOOKS)
 uninstall-hook: $(UNINSTALL_EXEC_HOOKS)
 install-data-hook: $(INSTALL_DATA_HOOKS)
