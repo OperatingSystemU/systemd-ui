@@ -17,7 +17,7 @@
 
 AC_PREREQ(2.63)
 
-AC_INIT([systemd-ui],[0],[systemd-devel@lists.freedesktop.org])
+AC_INIT([systemd-ui],[1],[systemd-devel@lists.freedesktop.org])
 AC_CONFIG_SRCDIR([src/systemadm.vala])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
@@ -89,10 +89,7 @@ CC_CHECK_CFLAGS_APPEND([ \
 # This makes sure pkg.m4 is available.
 m4_pattern_forbid([^_?PKG_[A-Z_]+$],[*** pkg.m4 missing, please install pkg-config])
 
-AC_ARG_WITH([rootprefix],
-        AS_HELP_STRING([--with-rootprefix=DIR], [rootfs directory prefix for config files and kernel modules]),
-        [], [with_rootprefix=${ac_default_prefix}])
-AC_SUBST([rootprefix], [$with_rootprefix])
+AC_SEARCH_LIBS([clock_gettime], [rt], [], [AC_MSG_ERROR([*** POSIX RT library not found])])
 
 PKG_CHECK_MODULES(DBUS, [ dbus-1 >= 1.3.2 ])
 AC_SUBST(DBUS_CFLAGS)
@@ -119,5 +116,4 @@ AC_MSG_RESULT([
         $PACKAGE_NAME $VERSION
 
         prefix:                  ${prefix}
-        rootprefix:              ${with_rootprefix}
 ])
