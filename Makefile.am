@@ -59,7 +59,7 @@ desktopdir = $(datadir)/applications
 desktop_DATA = \
 	src/systemadm.desktop
 
-EXTRA_DIST = \
+EXTRA_DIST += \
 	src/systemadm.desktop
 
 systemd_gnome_ask_password_agent_SOURCES = \
