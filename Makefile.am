@@ -41,6 +41,7 @@ systemadm_SOURCES = \
 systemadm_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(GTK_CFLAGS) \
+	$(GEE_CFLAGS) \
 	-Wno-unused-variable \
 	-Wno-unused-function \
 	-Wno-shadow \
@@ -49,11 +50,12 @@ systemadm_CFLAGS = \
 systemadm_VALAFLAGS = \
 	--pkg=posix \
 	--pkg=gtk+-2.0 \
-	--pkg=gee-1.0 \
+	--pkg=$(GEE_PACKAGE) \
 	-g
 
 systemadm_LDADD = \
-	$(GTK_LIBS)
+	$(GTK_LIBS) \
+	$(GEE_LIBS)
 
 desktopdir = $(datadir)/applications
 desktop_DATA = \

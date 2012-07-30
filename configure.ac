@@ -95,9 +95,20 @@ PKG_CHECK_MODULES(DBUS, [ dbus-1 >= 1.3.2 ])
 AC_SUBST(DBUS_CFLAGS)
 AC_SUBST(DBUS_LIBS)
 
-PKG_CHECK_MODULES(GTK, [ gtk+-2.0 glib-2.0 > 2.26 gio-unix-2.0 gee-1.0])
+PKG_CHECK_MODULES(GTK, [ gtk+-2.0 glib-2.0 > 2.26 gio-unix-2.0 ])
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
+
+PKG_CHECK_MODULES(GEE, [ gee-0.8 ],,
+        [AC_MSG_WARN([gee-0.8 not found, falling back to older version])])
+AS_IF([test -n "$GEE_LIBS"],
+        [AC_DEFINE([GEE_PACKAGE], [gee-0.8], [Use gee-0.8])],
+        [PKG_CHECK_MODULES(GEE, [ gee-1.0 ])
+         AC_DEFINE([GEE_PACKAGE], [gee-1.0], [Use gee-1.0 (old)])]
+)
+AC_SUBST(GEE_CFLAGS)
+AC_SUBST(GEE_LIBS)
+AC_SUBST(GEE_PACKAGE)
 
 PKG_CHECK_MODULES(LIBNOTIFY, [ libnotify ])
 AC_SUBST(LIBNOTIFY_CFLAGS)
