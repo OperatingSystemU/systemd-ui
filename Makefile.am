@@ -58,11 +58,17 @@ systemadm_LDADD = \
 	$(GEE_LIBS)
 
 desktopdir = $(datadir)/applications
-desktop_DATA = \
+dist_desktop_DATA = \
 	src/systemadm.desktop
 
+CLEANFILES += \
+	${systemadm_SOURCES:.vala=.c}
+
+dist_man_MANS = \
+	man/systemadm.1
+
 EXTRA_DIST += \
-	src/systemadm.desktop
+	man/systemadm.xml
 
 systemd_gnome_ask_password_agent_SOURCES = \
 	src/gnome-ask-password-agent.vala
@@ -88,16 +94,8 @@ systemd_gnome_ask_password_agent_LDADD = \
 	$(LIBNOTIFY_LIBS) \
 	$(GTK_LIBS)
 
-if HAVE_VALAC
 CLEANFILES += \
-	${systemadm_SOURCES:.vala=.c}
-endif
-
-dist_man_MANS = \
-	man/systemadm.1
-
-EXTRA_DIST += \
-	man/systemadm.xml
+	${systemd_gnome_ask_password_agent_SOURCES:.vala=.c}
 
 if HAVE_XSLTPROC
 XSLTPROC_FLAGS = \
