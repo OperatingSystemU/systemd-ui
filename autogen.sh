@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #  This file is part of systemd.
 #
@@ -15,10 +15,13 @@
 #  You should have received a copy of the GNU General Public License
 #  along with systemd; If not, see <http://www.gnu.org/licenses/>.
 
-if [ -f .git/hooks/pre-commit.sample -a ! -f .git/hooks/pre-commit ] ; then
+set -e
+
+if [ -f .git/hooks/pre-commit.sample ] && [ ! -f .git/hooks/pre-commit ]; then
+    # This part is allowed to fail
     cp -p .git/hooks/pre-commit.sample .git/hooks/pre-commit && \
     chmod +x .git/hooks/pre-commit && \
-    echo "Activated pre-commit hook."
+    echo "Activated pre-commit hook." || :
 fi
 
 autoreconf --force --install --symlink
